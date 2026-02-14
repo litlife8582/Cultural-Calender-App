@@ -146,3 +146,89 @@ body {
     color: #333;
     text-align: center;
 }
+
+/* --- CALENDAR PAGE STYLES --- */
+.calendar-hero {
+    margin-top: 0; /* Navbar handles spacing */
+    height: 50vh;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)),
+                url('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=1600') center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--light);
+}
+
+.calendar-hero h1 {
+    font-size: 4.5rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #d4af37, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.filters-section {
+    max-width: 1400px;
+    margin: 3rem auto;
+    padding: 0 5%;
+}
+
+.filters {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.filters select, .filters button {
+    background: rgba(212,175,55,0.15);
+    border: 2px solid var(--primary);
+    color: var(--text); /* Adapted to your theme */
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    min-width: 180px;
+    border-radius: 8px;
+}
+
+.filters select:hover, .filters button:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.filter-status {
+    text-align: center;
+    margin: 1.5rem 0;
+    font-size: 1.1rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.countdown-container {
+    background: linear-gradient(135deg, rgba(139,0,0,0.7), rgba(212,175,55,0.7));
+    padding: 2.5rem;
+    margin: 2rem 0;
+    border-radius: 12px;
+    color: white;
+}
+
+.countdown-festival {
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.countdown-timer {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.time-box {
+    background
