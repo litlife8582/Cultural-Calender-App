@@ -112,7 +112,6 @@ export default function CalendarPage() {
 
   return (
     <>
-
       <div className="calendar-hero">
         <h1>Cultural Calendar</h1>
       </div>
@@ -130,14 +129,23 @@ export default function CalendarPage() {
 
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
           <div className="flex gap-4">
-            <select className="p-2 rounded border bg-transparent" value={filterRegion} onChange={(e) => setFilterRegion(e.target.value)}>
+            <select 
+              className="p-2 rounded border border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white" 
+              value={filterRegion} 
+              onChange={(e) => setFilterRegion(e.target.value)}
+            >
               <option value="all">All Regions</option>
               <option value="asia">Asia</option>
               <option value="europe">Europe</option>
               <option value="americas">Americas</option>
               <option value="global">Global</option>
             </select>
-            <select className="p-2 rounded border bg-transparent" value={filterMood} onChange={(e) => setFilterMood(e.target.value)}>
+
+            <select 
+              className="p-2 rounded border border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white" 
+              value={filterMood} 
+              onChange={(e) => setFilterMood(e.target.value)}
+            >
               <option value="all">All Moods</option>
               <option value="spiritual">Spiritual</option>
               <option value="celebratory">Celebratory</option>
