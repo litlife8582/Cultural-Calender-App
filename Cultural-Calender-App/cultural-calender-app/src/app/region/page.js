@@ -37,7 +37,12 @@ export default function RegionPage() {
             <div className="features" style={{gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", padding: 0, background: "transparent"}}>
                 {filteredFestivals.map((fest, index) => (
                     <div key={index} className="feature-card" onClick={() => setSelectedFestival(fest)} style={{cursor: "pointer"}}>
-                        <img src={fest.img} alt={fest.name} style={{width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px', marginBottom: '1rem'}} />
+                        <img 
+                            src={fest.img} 
+                            alt={fest.name} 
+                            onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800"}} // Added Fallback
+                            style={{width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px', marginBottom: '1rem'}} 
+                        />
                         <h3>{fest.name}</h3>
                         <p><strong>Origin:</strong> {fest.origin}</p>
                         <p>{fest.description}</p>
