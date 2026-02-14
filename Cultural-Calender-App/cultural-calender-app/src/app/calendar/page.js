@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import Navbar from '../../components/Navbar';
 
 const festivalsDatabase = {
   "01-01": { name: "New Year's Day", region: "global", mood: "celebratory", description: "Global celebration of the new year with fireworks and festivities.", origin: "Ancient Roman festival of Janus.", foods: ["Champagne", "Grapes"], symbolism: "New beginnings, hope", image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800" },
@@ -113,7 +112,6 @@ export default function CalendarPage() {
 
   return (
     <>
-      <Navbar /> 
 
       <div className="calendar-hero">
         <h1>Cultural Calendar</h1>
