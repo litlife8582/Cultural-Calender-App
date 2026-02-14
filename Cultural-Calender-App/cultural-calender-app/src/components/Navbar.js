@@ -1,43 +1,33 @@
-"use client"; // Required for onClick and useEffect
-
-import { useState, useEffect } from 'react';
+"use client";
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [theme, setTheme] = useState('light');
 
-  // Load theme from localStorage on mount
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    setTheme(savedTheme);
-    document.documentElement.setAttribute('data-theme', savedTheme);
-  }, []);
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
   return (
     <nav className="navbar">
-      <div className="logo">Culturix</div>
-      <ul className="nav-links">
-        <li><Link href="/">Home</Link></li>
-        <li><Link href="/mood">Mood Explorer</Link></li>
-        <li><Link href="/calendar">Cultural Calendar</Link></li>
-        <li><Link href="/regions">Regions</Link></li>
-        <li><Link href="/about">About</Link></li>
-      </ul>
-      <button 
-        id="theme-toggle" 
-        onClick={toggleTheme}
-        aria-label="Toggle Dark Mode"
-        style={{ cursor: 'pointer', background: 'none', border: 'none', fontSize: '1.2rem' }}
-      >
-        {theme === 'light' ? '🌙' : '☀️'}
-      </button>
+        <Link href="/" className="logo">Culturix</Link>
+        <ul className="nav-links">
+            <li><Link href="/" className={pathname === '/' ? 'active' : ''}>Home</Link></li>
+            <li><Link href="/mood" className={pathname === '/mood' ? 'active' : ''}>Mood Explorer</Link></li>
+            <li><Link href="/calendar" className={pathname === '/calendar' ? 'active' : ''}>Cultural Calendar</Link></li>
+            <li><Link href="/region" className={pathname === '/region' ? 'active' : ''}>Regions</Link></li>
+            <li><Link href="/about" className={pathname === '/about' ? 'active' : ''}>About</Link></li>
+        </ul>
+        <button id="theme-toggle" onClick={toggleTheme} aria-label="Toggle Theme">
+            {theme === 'light' ? '🌓' : '☀️'}
+        </button>
     </nav>
   );
 }
