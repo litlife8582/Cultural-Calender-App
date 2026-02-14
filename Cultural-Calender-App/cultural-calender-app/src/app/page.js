@@ -1,10 +1,10 @@
 import Link from 'next/link';
-import Navbar from '../components/Navbar'; // Adjust path if needed
+// Navbar import REMOVED because it's already in layout.js
 
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <Navbar />
+      {/* <Navbar /> REMOVED from here */}
       
       {/* Hero Section */}
       <section className="relative h-[80vh] flex flex-col justify-center items-center text-center px-4 bg-gradient-to-br from-black to-gray-900 text-white overflow-hidden">
