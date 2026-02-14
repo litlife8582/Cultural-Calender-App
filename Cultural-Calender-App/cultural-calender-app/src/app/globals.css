@@ -1,234 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  /* Restoring your original "Red/Dark" palette */
+  --color-primary: #9b2226;    /* Your original red */
+  --color-secondary: #ae2012;  /* Your accent red */
+  --color-dark: #1a0a0a;       /* Your dark bg */
+  --color-light: #f8f6f0;
+  --font-family-sans: 'Outfit', sans-serif;
+}
+
 :root {
-    --bg: #ffffff;
-    --text: #1f2937;
-    --primary: #9b2226; 
-    --secondary: #fdf0d5; 
-    --accent: linear-gradient(135deg, #ae2012, #9b2226);
-    --card-bg: #ffffff;
-    --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    --hero-overlay: rgba(0, 0, 0, 0.4);
+  --background: #ffffff;
+  --foreground: #1f2937;
 }
 
 [data-theme="dark"] {
-    --bg: #1a0a0a;
-    --text: #f8fafc;
-    --primary: #ee9b00; 
-    --secondary: #331212;
-    --card-bg: #2b1111;
-    --shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-    --hero-overlay: rgba(0, 0, 0, 0.6);
+  --background: #1a0a0a;
+  --foreground: #f8fafc;
 }
 
 body {
-    margin: 0;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-    transition: background 0.3s ease;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-family-sans);
+  margin: 0;
+  padding: 0;
 }
 
+/* --- NAVBAR STYLES --- */
+/* These ensure the navbar looks good on all pages */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.2rem 8%;
-    background: var(--bg);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 2rem;
+  background-color: var(--background);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .logo {
-    font-size: 1.8rem;
-    font-weight: 900;
-    color: var(--primary);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: -0.5px;
 }
 
 .nav-links {
-    list-style: none;
-    display: flex;
-    gap: 2rem;
-    margin: 0;
+  display: flex;
+  gap: 2rem;
+  list-style: none;
 }
 
 .nav-links a {
-    text-decoration: none;
-    color: var(--text);
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: color 0.2s;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
 }
 
-.nav-links a.active, .nav-links a:hover {
-    color: var(--primary);
+.nav-links a:hover {
+  color: var(--color-primary);
 }
 
-.hero {
-    min-height: 85vh;
-    background: 
-        linear-gradient(var(--hero-overlay), var(--hero-overlay)),
-        url('https://d3ehumack2xlu4.cloudfront.net/uploads/posts/1751015270.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
-    padding: 0 10%;
-}
-.hero-content h1 {
-    font-size: 5rem;
-    margin-bottom: 0.5rem;
-    font-weight: 900;
-    background: linear-gradient(90deg, #ffba08, #ee9b00, #ca6702);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 2px 4px 15px rgba(0,0,0,0.6);
-}
-
-
-.hero-description {
-    max-width: 700px;
-    margin: 0 auto 2.5rem;
-    font-size: 1.3rem;
-    font-weight: 500;
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
-}
-
-.cta-btn {
-    padding: 16px 36px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: 700;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    display: inline-block;
-}
-
-.primary-btn {
-    background: var(--primary);
-    color: white;
-    border: 2px solid var(--primary);
-}
-
-.secondary-btn {
-    background: transparent;
-    color: white;
-    border: 2px solid white;
-    margin-left: 15px;
-}
-
-.cta-btn:hover {
-    transform: translateY(-3px);
-    background: white;
-    color: var(--primary);
-    border-color: white;
-}
-
-.feature-card {
-    background: var(--card-bg);
-    padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: var(--shadow);
-    text-align: center;
-    border-top: 4px solid var(--primary);
-}
-
-.footer {
-    padding: 4rem 8%;
-    background: var(--secondary);
-    color: #333;
-    text-align: center;
-}
-
-/* --- CALENDAR PAGE STYLES --- */
+/* --- CALENDAR HERO (Keep this for the calendar page) --- */
 .calendar-hero {
-    margin-top: 0; /* Navbar handles spacing */
-    height: 50vh;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)),
-                url('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=1600') center/cover;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: var(--light);
+  height: 50vh;
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)),
+              url('https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=1600') center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }
 
 .calendar-hero h1 {
-    font-size: 4.5rem;
-    font-weight: 900;
-    background: linear-gradient(135deg, #d4af37, #ffd700);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  font-size: 4rem;
+  font-weight: bold;
 }
-
-.filters-section {
-    max-width: 1400px;
-    margin: 3rem auto;
-    padding: 0 5%;
-}
-
-.filters {
-    display: flex;
-    gap: 2rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-}
-
-.filters select, .filters button {
-    background: rgba(212,175,55,0.15);
-    border: 2px solid var(--primary);
-    color: var(--text); /* Adapted to your theme */
-    padding: 1rem 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    min-width: 180px;
-    border-radius: 8px;
-}
-
-.filters select:hover, .filters button:hover {
-    background: var(--primary);
-    color: white;
-}
-
-.filter-status {
-    text-align: center;
-    margin: 1.5rem 0;
-    font-size: 1.1rem;
-    color: var(--primary);
-    font-weight: 600;
-}
-
-.countdown-container {
-    background: linear-gradient(135deg, rgba(139,0,0,0.7), rgba(212,175,55,0.7));
-    padding: 2.5rem;
-    margin: 2rem 0;
-    border-radius: 12px;
-    color: white;
-}
-
-.countdown-festival {
-    font-size: 2.5rem;
-    font-weight: 900;
-    text-align: center;
-    margin: 1rem 0;
-}
-
-.countdown-timer {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.time-box {
-    background

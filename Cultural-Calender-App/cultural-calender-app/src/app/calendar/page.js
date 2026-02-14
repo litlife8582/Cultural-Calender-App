@@ -1,13 +1,12 @@
-"use client"; // Required for interactivity
+"use client";
 
 import { useState, useEffect } from 'react';
-import Navbar from '../../components/Navbar'; // Adjust path if needed
+import Navbar from '../../components/Navbar';
 
-// --- THE DATA ---
 const festivalsDatabase = {
   "01-01": { name: "New Year's Day", region: "global", mood: "celebratory", description: "Global celebration of the new year with fireworks and festivities.", origin: "Ancient Roman festival of Janus.", foods: ["Champagne", "Grapes"], symbolism: "New beginnings, hope", image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800" },
   "01-06": { name: "Epiphany", region: "europe", mood: "spiritual", description: "Christian feast celebrating the visit of the Magi.", origin: "Early Christian tradition.", foods: ["King cake"], symbolism: "Revelation, wisdom", image: "https://images.unsplash.com/photo-1481391243133-f96216dcb5d2?w=800" },
-  "01-14": { name: "Pongal", region: "asia", mood: "harvest", description: "Tamil harvest festival dedicated to the Sun God.", origin: "Ancient Dravidian celebration over 2000 years old.", foods: ["Sweet Pongal", "Sugarcane"], symbolism: "Thanksgiving, prosperity", image: "https://images.unsplash.com/photo-1578632292335-df3abbb0d586?w=800" },
+  "01-14": { name: "Pongal", region: "asia", mood: "harvest", description: "Tamil harvest festival dedicated to the Sun God.", origin: "Ancient Dravidian celebration.", foods: ["Sweet Pongal", "Sugarcane"], symbolism: "Thanksgiving, prosperity", image: "https://images.unsplash.com/photo-1578632292335-df3abbb0d586?w=800" },
   "02-14": { name: "Valentine's Day", region: "global", mood: "celebratory", description: "Celebration of love and affection.", origin: "Roman Lupercalia festival.", foods: ["Chocolate", "Wine"], symbolism: "Love, romance", image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=800" },
   "03-01": { name: "Holi", region: "asia", mood: "celebratory", description: "Hindu festival of colors celebrating spring.", origin: "Ancient Hindu tradition.", foods: ["Gujiya", "Thandai"], symbolism: "Joy, color, renewal", image: "https://images.unsplash.com/photo-1583391733975-5e8c0b944d49?w=800" },
   "03-17": { name: "St. Patrick's Day", region: "europe", mood: "celebratory", description: "Irish cultural celebration.", origin: "5th century Irish saint.", foods: ["Corned beef", "Cabbage"], symbolism: "Irish heritage, luck", image: "https://images.unsplash.com/photo-1489925814383-8ed3bb92e865?w=800" },
@@ -25,12 +24,9 @@ export default function CalendarPage() {
   const [filterRegion, setFilterRegion] = useState('all');
   const [filterMood, setFilterMood] = useState('all');
   const [selectedFestival, setSelectedFestival] = useState(null);
-  
-  // Countdown State
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [nextFestivalName, setNextFestivalName] = useState("Loading...");
 
-  // --- COUNTDOWN LOGIC ---
   useEffect(() => {
     const calculateTime = () => {
       const now = new Date();
@@ -40,7 +36,6 @@ export default function CalendarPage() {
       
       const sortedKeys = Object.keys(festivalsDatabase).sort();
 
-      // Find next festival
       for (let key of sortedKeys) {
         const [m, d] = key.split('-').map(Number);
         const festDate = new Date(currentYear, m - 1, d);
@@ -51,7 +46,6 @@ export default function CalendarPage() {
         }
       }
 
-      // If no more festivals this year, loop to start of next year
       if (!nextFest) {
         const [m, d] = sortedKeys[0].split('-').map(Number);
         nextDate = new Date(currentYear + 1, m - 1, d);
@@ -72,31 +66,25 @@ export default function CalendarPage() {
     };
 
     const timer = setInterval(calculateTime, 1000);
-    calculateTime(); // Run immediately
-
+    calculateTime();
     return () => clearInterval(timer);
   }, []);
 
-  // --- CALENDAR GRID LOGIC ---
   const getDaysInMonth = (date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const firstDay = new Date(year, month, 1).getDay(); // 0 = Sunday
-    
+    const firstDay = new Date(year, month, 1).getDay();
     const days = [];
     
-    // Empty slots for days before the 1st
     for (let i = 0; i < firstDay; i++) {
       days.push({ type: 'empty', key: `empty-${i}` });
     }
 
-    // Actual days
     for (let d = 1; d <= daysInMonth; d++) {
       const dateKey = `${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
       const festival = festivalsDatabase[dateKey];
       
-      // Apply filters
       let showFestival = false;
       if (festival) {
         const matchRegion = filterRegion === 'all' || festival.region === filterRegion;
@@ -115,130 +103,109 @@ export default function CalendarPage() {
     return days;
   };
 
-  const calendarDays = getDaysInMonth(currentDate);
-
   const handleMonthChange = (direction) => {
     const newDate = new Date(currentDate);
     newDate.setMonth(currentDate.getMonth() + direction);
     setCurrentDate(newDate);
   };
 
+  const calendarDays = getDaysInMonth(currentDate);
+
   return (
     <>
-      <Navbar /> {/* Reusing your Navbar component */}
+      <Navbar /> 
 
       <div className="calendar-hero">
         <h1>Cultural Calendar</h1>
       </div>
 
-      <div className="filters-section">
-        <div className="filters">
-          <select value={filterRegion} onChange={(e) => setFilterRegion(e.target.value)}>
-            <option value="all">All Regions</option>
-            <option value="asia">Asia</option>
-            <option value="europe">Europe</option>
-            <option value="americas">Americas</option>
-            <option value="africa">Africa</option>
-            <option value="global">Global</option>
-          </select>
-
-          <select value={filterMood} onChange={(e) => setFilterMood(e.target.value)}>
-            <option value="all">All Moods</option>
-            <option value="spiritual">Spiritual</option>
-            <option value="celebratory">Celebratory</option>
-            <option value="harvest">Harvest</option>
-            <option value="remembrance">Remembrance</option>
-          </select>
-
-          <button onClick={() => setCurrentDate(new Date())}>📍 Today</button>
+      <div className="max-w-6xl mx-auto p-8">
+        <div className="countdown-container text-center mb-12">
+          <h2 className="text-2xl font-bold mb-4">Next Up: {nextFestivalName}</h2>
+          <div className="flex justify-center gap-6 text-xl">
+            <div><span className="block text-4xl font-bold">{timeLeft.days}</span> Days</div>
+            <div><span className="block text-4xl font-bold">{timeLeft.hours}</span> Hrs</div>
+            <div><span className="block text-4xl font-bold">{timeLeft.minutes}</span> Min</div>
+            <div><span className="block text-4xl font-bold">{timeLeft.seconds}</span> Sec</div>
+          </div>
         </div>
 
-        <div className="filter-status">
-            Showing {filterMood === 'all' ? '' : filterMood} festivals {filterRegion === 'all' ? '' : `in ${filterRegion}`}
+        <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+          <div className="flex gap-4">
+            <select className="p-2 rounded border bg-transparent" value={filterRegion} onChange={(e) => setFilterRegion(e.target.value)}>
+              <option value="all">All Regions</option>
+              <option value="asia">Asia</option>
+              <option value="europe">Europe</option>
+              <option value="americas">Americas</option>
+              <option value="global">Global</option>
+            </select>
+            <select className="p-2 rounded border bg-transparent" value={filterMood} onChange={(e) => setFilterMood(e.target.value)}>
+              <option value="all">All Moods</option>
+              <option value="spiritual">Spiritual</option>
+              <option value="celebratory">Celebratory</option>
+              <option value="harvest">Harvest</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button onClick={() => handleMonthChange(-1)} className="p-2">←</button>
+            <h2 className="text-2xl font-semibold">
+              {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
+            </h2>
+            <button onClick={() => handleMonthChange(1)} className="p-2">→</button>
+          </div>
         </div>
 
-        {/* COUNTDOWN TIMER */}
-        <div className="countdown-container">
-            <div style={{textAlign: 'center'}}>
-                <h2>⏰ Next Festival</h2>
-                <div className="countdown-festival">{nextFestivalName}</div>
-            </div>
-            <div className="countdown-timer">
-                {Object.entries(timeLeft).map(([label, value]) => (
-                    <div key={label} className="time-box">
-                        <span className="number">{String(value).padStart(2, '0')}</span>
-                        <span className="label" style={{textTransform: 'capitalize'}}>{label}</span>
-                    </div>
-                ))}
-            </div>
-        </div>
-      </div>
-
-      {/* CALENDAR GRID */}
-      <div className="calendar-wrapper">
-        <div className="calendar-nav">
-            <button onClick={() => handleMonthChange(-1)}>←</button>
-            <h2>{currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}</h2>
-            <button onClick={() => handleMonthChange(1)}>→</button>
-        </div>
-
-        <div className="calendar-grid">
-            {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                <div key={day} className="day-header">{day}</div>
-            ))}
-            
-            {calendarDays.map((item) => (
-                <div 
-                    key={item.key} 
-                    className={`calendar-day ${item.type === 'empty' ? 'empty' : ''} ${item.isToday ? 'today' : ''} ${item.festival ? 'has-festival' : ''}`}
-                    onClick={() => item.festival && setSelectedFestival(item.festival)}
-                >
-                    {item.type === 'day' && (
-                        <>
-                            <div className="day-number">{item.day}</div>
-                            {item.festival && (
-                                <>
-                                    <div className="festival-name">{item.festival.name}</div>
-                                    <span className="festival-tag">{item.festival.mood}</span>
-                                </>
-                            )}
-                        </>
-                    )}
+        <div className="grid grid-cols-7 gap-2">
+          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+            <div key={day} className="text-center font-bold p-2 opacity-50">{day}</div>
+          ))}
+          {calendarDays.map((item) => (
+            <div 
+              key={item.key} 
+              onClick={() => item.festival && setSelectedFestival(item.festival)}
+              className={`min-h-[120px] border rounded-lg p-2 transition-all 
+                ${item.type === 'empty' ? 'bg-transparent border-none' : 'hover:border-yellow-500 cursor-pointer'}
+                ${item.isToday ? 'border-blue-500 bg-blue-50/10' : ''}
+                ${item.festival ? 'bg-yellow-500/10 border-yellow-500/50' : ''}`}
+            >
+              <span className="text-sm font-semibold">{item.day}</span>
+              {item.festival && (
+                <div className="mt-2 text-xs font-bold text-yellow-600 truncate">
+                  ✨ {item.festival.name}
                 </div>
-            ))}
+              )}
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* MODAL */}
       {selectedFestival && (
-        <div className="modal-overlay" onClick={() => setSelectedFestival(null)}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                <span className="modal-close" onClick={() => setSelectedFestival(null)}>×</span>
-                
-                <div className="modal-hero" style={{backgroundImage: `url('${selectedFestival.image}')`}}>
-                    <div className="modal-header-text">
-                        <h2>{selectedFestival.name}</h2>
-                        <span className="festival-tag">{selectedFestival.region.toUpperCase()}</span>
-                    </div>
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl max-w-2xl w-full overflow-hidden relative">
+            <button 
+              onClick={() => setSelectedFestival(null)}
+              className="absolute top-4 right-4 text-2xl z-10 text-white bg-black/20 rounded-full w-10 h-10"
+            >
+              ×
+            </button>
+            <img src={selectedFestival.image} alt={selectedFestival.name} className="w-full h-64 object-cover" />
+            <div className="p-8">
+              <h2 className="text-3xl font-bold mb-2">{selectedFestival.name}</h2>
+              <p className="text-yellow-600 font-semibold mb-4 capitalize">{selectedFestival.region} • {selectedFestival.mood}</p>
+              <p className="mb-6 opacity-80">{selectedFestival.description}</p>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <h4 className="font-bold">Traditions</h4>
+                  <p>{selectedFestival.symbolism}</p>
                 </div>
-
-                <div className="modal-body">
-                    <h3>📖 About</h3>
-                    <p>{selectedFestival.description}</p>
-                    <br />
-                    <h3>🧬 Cultural DNA</h3>
-                    <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '10px'}}>
-                        <div style={{background: 'rgba(212,175,55,0.1)', padding: '15px', borderRadius: '8px'}}>
-                            <h4>🏛️ Origin</h4>
-                            <p>{selectedFestival.origin}</p>
-                        </div>
-                        <div style={{background: 'rgba(212,175,55,0.1)', padding: '15px', borderRadius: '8px'}}>
-                            <h4>🍽️ Foods</h4>
-                            <p>{selectedFestival.foods.join(', ')}</p>
-                        </div>
-                    </div>
+                <div>
+                  <h4 className="font-bold">Foods</h4>
+                  <p>{selectedFestival.foods.join(", ")}</p>
                 </div>
+              </div>
             </div>
+          </div>
         </div>
       )}
     </>
